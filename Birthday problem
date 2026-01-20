@@ -1,0 +1,17 @@
+set.seed(1234);
+# Simulate birthdays and return the number of people who share the same birthday
+# N number of people
+# J number of possible birthdays
+simulate <- function(N, J) {
+birthdays <- sample.int(J, N, replace=TRUE);
+counts <- table(birthdays);
+max(counts)
+}
+N <- 30;
+J <- 365;
+S <- 1000; # number of simulation rounds
+x <- vapply(1:S, function(s) simulate(N, J), 0);
+event <- as.integer(x > 1);
+estimate <- mean(event);
+se <- sd(event) / sqrt(S);
+z <- qnorm(1 - 0.05 / 2);
